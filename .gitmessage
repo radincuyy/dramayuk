@@ -1,0 +1,21 @@
+# 🎬 DramaYuk - Commit Message Template
+#
+# Format: <emoji> <type>: <description>
+#
+# Examples:
+# 🎉 feat: add video player functionality
+# 🐛 fix: resolve mobile navigation issue
+# 📱 style: improve responsive design
+# ⚡ perf: optimize search performance
+# 📚 docs: update README documentation
+# 🔧 config: update Vercel configuration
+#
+# Types:
+# feat: new feature
+# fix: bug fix
+# docs: documentation
+# style: formatting, missing semi colons, etc
+# refactor: code change that neither fixes a bug nor adds a feature
+# perf: performance improvement
+# test: adding tests
+# config: configuration changes

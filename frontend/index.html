@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DramaYuk - Streaming Film & Drama</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="navbar">
+        <div class="nav-container">
+            <!-- Logo -->
+            <div class="logo">
+                <i class="fas fa-play-circle"></i>
+                <span>DramaYuk</span>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <nav class="desktop-nav">
+                <a href="#home" class="nav-link active">
+                    <i class="fas fa-home"></i>
+                    <span>Beranda</span>
+                </a>
+                <a href="#all-movies" class="nav-link">
+                    <i class="fas fa-film"></i>
+                    <span>Semua Drama</span>
+                </a>
+                <a href="#favorites" class="nav-link">
+                    <i class="fas fa-heart"></i>
+                    <span>Favorit</span>
+                </a>
+            </nav>
+            
+            <!-- Search & Mobile Controls -->
+            <div class="nav-controls">
+                <!-- Search Container -->
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="global-search" placeholder="Cari..." autocomplete="off">
+                    <button class="search-clear" id="search-clear" style="display: none;" aria-label="Clear search">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <!-- Mobile Menu Toggle -->
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation -->
+        <nav class="mobile-nav" id="mobile-nav">
+            <div class="mobile-nav-content">
+                <!-- Mobile Search -->
+                <div class="mobile-search-container">
+                    <i class="fas fa-search mobile-search-icon"></i>
+                    <input type="text" id="mobile-search" placeholder="Cari film atau drama..." autocomplete="off">
+                </div>
+                
+                <!-- Mobile Navigation Links -->
+                <div class="mobile-nav-links">
+                    <a href="#home" class="mobile-nav-link active">
+                        <i class="fas fa-home"></i>
+                        <span>Beranda</span>
+                    </a>
+                    <a href="#all-movies" class="mobile-nav-link">
+                        <i class="fas fa-film"></i>
+                        <span>Semua Drama</span>
+                    </a>
+                    <a href="#favorites" class="mobile-nav-link">
+                        <i class="fas fa-heart"></i>
+                        <span>Favorit</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="hero-section">
+            <div class="hero-content">
+                <div class="hero-info">
+                    <div class="hero-badge">🔥 Trending Hari Ini</div>
+                    <h1 class="hero-title">Selamat Datang di DramaYuk</h1>
+                    <p class="hero-description">Nikmati ribuan film dan drama terbaik dengan kualitas HD. Streaming tanpa batas, kapan saja dan dimana saja.</p>
+                    <div class="hero-buttons">
+                        <button class="btn-primary" id="hero-play">
+                            <i class="fas fa-play"></i> 
+                            <span>Tonton Sekarang</span>
+                        </button>
+                        <button class="btn-secondary" id="hero-explore">
+                            <i class="fas fa-info-circle"></i> 
+                            <span>Jelajahi Film</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-gradient"></div>
+        </section>
+
+        <!-- Home Page -->
+        <section id="home" class="page active">
+            <div class="content-container">
+                <!-- Featured Movies -->
+                <div class="section-header">
+                    <h2><i class="fas fa-fire"></i> Film Terbaru</h2>
+                    <p>Film dan drama terbaru yang sedang trending</p>
+                </div>
+                <div class="movie-carousel" id="featured-carousel">
+                    <div class="carousel-container">
+                        <button class="carousel-btn prev" id="featured-prev">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="carousel-track" id="featured-track">
+                            <!-- Movies will be loaded here -->
+                        </div>
+                        <button class="carousel-btn next" id="featured-next">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Genre Sections -->
+                <div id="genre-sections">
+                    <!-- Genre sections will be loaded here dynamically -->
+                </div>
+
+                <!-- Recently Watched -->
+                <div class="section-header" id="recent-section" style="display: none;">
+                    <h2><i class="fas fa-history"></i> Terakhir Ditonton</h2>
+                    <p>Lanjutkan menonton dari terakhir kali</p>
+                </div>
+                <div class="movie-carousel" id="recent-carousel" style="display: none;">
+                    <div class="carousel-track" id="recent-track"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- All Movies Page -->
+        <section id="all-movies" class="page">
+            <div class="content-container">
+                <div class="page-header">
+                    <h1><i class="fas fa-film"></i> Semua Drama & Film</h1>
+                    <p>Koleksi lengkap drama dan film dari DramaYuk</p>
+                </div>
+                
+                <!-- Movie Count Info -->
+                <div class="movies-info">
+                    <div class="movies-count-display">
+                        <i class="fas fa-video"></i>
+                        <span id="movies-count">Memuat drama...</span>
+                    </div>
+                </div>
+
+                <!-- Movies Grid -->
+                <div id="all-movies-grid" class="movie-grid"></div>
+                
+                <!-- Load More Button -->
+                <div class="load-more-container">
+                    <button id="load-more-btn" class="load-more-btn">
+                        <i class="fas fa-plus"></i>
+                        <span>Muat Lebih Banyak Drama</span>
+                    </button>
+                    <div id="loading-more" class="loading-more" style="display: none;">
+                        <div class="spinner"></div>
+                        <span>Memuat drama...</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Favorites Page -->
+        <section id="favorites" class="page">
+            <div class="content-container">
+                <div class="page-header">
+                    <h1><i class="fas fa-heart"></i> Film Favorit Saya</h1>
+                    <p>Koleksi film dan drama yang telah Anda simpan</p>
+                </div>
+                <div class="favorites-stats" id="favorites-stats"></div>
+                <div id="favorites-movies" class="movie-grid"></div>
+            </div>
+        </section>
+
+        <!-- Search Results -->
+        <section id="search-results" class="page">
+            <div class="content-container">
+                <div class="page-header">
+                    <h1 id="search-title"><i class="fas fa-search"></i> Hasil Pencarian</h1>
+                    <p id="search-subtitle">Menampilkan hasil untuk pencarian Anda</p>
+                </div>
+
+                <div id="search-movies" class="movie-grid"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Video Modal -->
+    <div id="video-modal" class="modal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <!-- Video Player -->
+            <div class="video-section">
+                <div class="video-player-container">
+                    <video id="video-player" controls preload="metadata">
+                        <source src="" type="video/mp4">
+                        Browser Anda tidak mendukung video player.
+                    </video>
+                    <div class="video-loading" id="video-loading">
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                            <p>Memuat video...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Movie Details -->
+            <div class="movie-details">
+                <div class="movie-info-section">
+                    <div class="movie-poster-small">
+                        <img id="modal-poster" src="" alt="Movie Poster">
+                    </div>
+                    <div class="movie-info-text">
+                        <h2 id="modal-title">Judul Film</h2>
+                        <div class="movie-meta-info">
+                            <span class="rating" id="modal-rating">★ 0</span>
+                            <span class="year" id="modal-year">2024</span>
+                            <span class="quality" id="modal-quality">HD</span>
+                            <span class="duration" id="modal-duration">45 min</span>
+                        </div>
+                        <div class="movie-genre" id="modal-genre">Drama</div>
+                    </div>
+                </div>
+
+                <!-- Episode Controls -->
+                <div class="episode-section">
+                    <div class="episode-header">
+                        <h3><i class="fas fa-list"></i> Episode</h3>
+                        <div class="episode-info">
+                            <div id="episode-info">Total: 0 Episode</div>
+                            <div id="current-episode" style="color: var(--primary-color); font-weight: 600; display: none;">
+                                <i class="fas fa-play-circle"></i> Sedang Memutar: Episode 1
+                            </div>
+                        </div>
+                    </div>
+                    <div class="episode-controls">
+                        <div class="episode-navigation">
+                            <button id="prev-episode-btn" class="episode-nav-btn" title="Episode Sebelumnya">
+                                <i class="fas fa-step-backward"></i>
+                            </button>
+                            <select id="episode-select" class="episode-selector">
+                                <option value="1">Episode 1</option>
+                            </select>
+                            <button id="next-episode-btn" class="episode-nav-btn" title="Episode Selanjutnya">
+                                <i class="fas fa-step-forward"></i>
+                            </button>
+                        </div>
+                        <button id="play-episode-btn" class="btn-play">
+                            <i class="fas fa-play"></i>
+                            <span>Putar Episode</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="description-section">
+                    <h4><i class="fas fa-info-circle"></i> Sinopsis</h4>
+                    <p id="modal-description">Deskripsi film akan muncul di sini...</p>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="action-btn favorite-btn" id="modal-favorite">
+                        <i class="fas fa-heart"></i>
+                        <span>Favorit</span>
+                    </button>
+                    <button class="action-btn share-btn" id="modal-share">
+                        <i class="fas fa-share"></i>
+                        <span>Bagikan</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-spinner">
+                <div class="spinner"></div>
+            </div>
+            <p>Memuat konten...</p>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Scroll to Top Button -->
+    <button id="scroll-top" class="scroll-top-btn">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <script src="script.js"></script>
+</body>
+</html>
