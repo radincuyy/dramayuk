@@ -42,6 +42,11 @@ export async function getStreamLink(bookId, episodeIndex) {
         const response = await axios.post(url, data, { headers });
         const chapterData = response.data.data;
 
+        // Check if chapterData and chapterList exist
+        if (!chapterData || !chapterData.chapterList || !Array.isArray(chapterData.chapterList)) {
+            throw new Error('Invalid response: chapterList not found');
+        }
+
         // Ambil link streaming dari episode yang diminta
         const episode = chapterData.chapterList[0];
         
