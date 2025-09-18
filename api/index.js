@@ -19,23 +19,23 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Health check
-app.get('/health', (req, res) => {
-    res.json({ 
-        status: 'OK', 
+app.get('/api/health', (req, res) => {
+    res.json({
+        status: 'OK',
         timestamp: new Date().toISOString(),
         message: 'DramaYuk API is running on Vercel'
     });
 });
 
 // Latest movies
-app.get('/latest', async (req, res) => {
+app.get('/api/latest', async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1;
         console.log(`API /latest called with page: ${page}`);
-        
+
         const movies = await getLatestMovies(page);
         console.log(`Returning ${movies.length} movies for page ${page}`);
-        
+
         res.json(movies);
     } catch (error) {
         console.error('Error in /api/latest:', error);
@@ -44,29 +44,29 @@ app.get('/latest', async (req, res) => {
 });
 
 // Search movies
-app.post('/search', async (req, res) => {
+app.post('/api/search', async (req, res) => {
     try {
         const { keyword, enhanced = false } = req.body;
         if (!keyword) {
             return res.status(400).json({ error: 'Keyword diperlukan' });
         }
-        
+
         const trimmedKeyword = keyword.trim();
         if (trimmedKeyword.length === 0) {
             return res.status(400).json({ error: 'Keyword tidak boleh kosong' });
         }
-        
+
         console.log(`🔍 Search request: "${trimmedKeyword}" (${trimmedKeyword.length} characters) - Enhanced: ${enhanced}`);
-        
+
         let movies;
         if (enhanced) {
             movies = await enhancedSearch(trimmedKeyword);
         } else {
             movies = await searchMovies(trimmedKeyword);
         }
-        
+
         console.log(`✅ Search result: ${movies.length} movies found for "${trimmedKeyword}"`);
-        
+
         res.json(movies);
     } catch (error) {
         console.error('Error in /api/search:', error);
@@ -75,13 +75,13 @@ app.post('/search', async (req, res) => {
 });
 
 // Stream link
-app.post('/stream', async (req, res) => {
+app.post('/api/stream', async (req, res) => {
     try {
         const { bookId, index } = req.body;
         if (!bookId || !index) {
             return res.status(400).json({ error: 'bookId dan index diperlukan' });
         }
-        
+
         const streamData = await getStreamLink(bookId, index);
         res.json(streamData);
     } catch (error) {
@@ -91,16 +91,16 @@ app.post('/stream', async (req, res) => {
 });
 
 // All movies
-app.get('/all-movies', async (req, res) => {
+app.get('/api/all-movies', async (req, res) => {
     try {
         const requestedPage = parseInt(req.query.page) || 1;
-        
+
         console.log(`API Request: Getting movies for page ${requestedPage}`);
-        
+
         const movies = await getAllMoviesWithVariation(requestedPage);
-        
+
         console.log(`API Response: Got ${movies.length} unique movies`);
-        
+
         res.json({
             movies: movies,
             currentPage: requestedPage,
@@ -111,6 +111,45 @@ app.get('/all-movies', async (req, res) => {
     } catch (error) {
         console.error('Error in /api/all-movies:', error);
         res.status(500).json({ error: 'Gagal mengambil semua film' });
+    }
+});
+
+// Enhanced search endpoint
+app.post('/api/search-enhanced', async (req, res) => {
+    try {
+        const { keyword, page = 1, limit = 50 } = req.body;
+        if (!keyword) {
+            return res.status(400).json({ error: 'Keyword diperlukan' });
+        }
+        
+        const trimmedKeyword = keyword.trim();
+        if (trimmedKeyword.length === 0) {
+            return res.status(400).json({ error: 'Keyword tidak boleh kosong' });
+        }
+        
+        console.log(`🚀 Enhanced search request: "${trimmedKeyword}" - Page: ${page}, Limit: ${limit}`);
+        
+        const movies = await enhancedSearch(trimmedKeyword);
+        
+        // Simple pagination
+        const startIndex = (page - 1) * limit;
+        const endIndex = startIndex + limit;
+        const paginatedResults = movies.slice(startIndex, endIndex);
+        
+        const result = {
+            results: paginatedResults,
+            currentPage: page,
+            totalResults: movies.length,
+            totalPages: Math.ceil(movies.length / limit),
+            hasMore: endIndex < movies.length
+        };
+        
+        console.log(`✅ Enhanced search result: ${result.totalResults} total, ${result.results.length} on page ${page}`);
+        
+        res.json(result);
+    } catch (error) {
+        console.error('Error in /api/search-enhanced:', error);
+        res.status(500).json({ error: 'Gagal melakukan enhanced search' });
     }
 });
 
