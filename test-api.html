@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DramaYuk API Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-result { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        button { margin: 5px; padding: 10px 15px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>🧪 DramaYuk API Test</h1>
+    
+    <button onclick="testHealth()">Test Health</button>
+    <button onclick="testLatest()">Test Latest</button>
+    <button onclick="testSearch()">Test Search</button>
+    <button onclick="testAllMovies()">Test All Movies</button>
+    
+    <div id="results"></div>
+
+    <script>
+        const API_BASE = 'https://dramayuk.vercel.app/api';
+        
+        function addResult(test, success, data) {
+            const div = document.createElement('div');
+            div.className = `test-result ${success ? 'success' : 'error'}`;
+            div.innerHTML = `
+                <strong>${test}:</strong> ${success ? '✅ SUCCESS' : '❌ FAILED'}<br>
+                <pre>${JSON.stringify(data, null, 2)}</pre>
+            `;
+            document.getElementById('results').appendChild(div);
+        }
+        
+        async function testHealth() {
+            try {
+                const response = await fetch(`${API_BASE}/health`);
+                const data = await response.json();
+                addResult('Health Check', response.ok, data);
+            } catch (error) {
+                addResult('Health Check', false, error.message);
+            }
+        }
+        
+        async function testLatest() {
+            try {
+                const response = await fetch(`${API_BASE}/latest`);
+                const data = await response.json();
+                addResult('Latest Movies', response.ok, `Found ${data.length} movies`);
+            } catch (error) {
+                addResult('Latest Movies', false, error.message);
+            }
+        }
+        
+        async function testSearch() {
+            try {
+                const response = await fetch(`${API_BASE}/search`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ keyword: 'love' })
+                });
+                const data = await response.json();
+                addResult('Search API', response.ok, `Found ${data.length} movies for "love"`);
+            } catch (error) {
+                addResult('Search API', false, error.message);
+            }
+        }
+        
+        async function testAllMovies() {
+            try {
+                const response = await fetch(`${API_BASE}/all-movies`);
+                const data = await response.json();
+                addResult('All Movies', response.ok, `Found ${data.movies?.length || 0} movies`);
+            } catch (error) {
+                addResult('All Movies', false, error.message);
+            }
+        }
+    </script>
+</body>
+</html>
