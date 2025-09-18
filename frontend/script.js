@@ -228,7 +228,7 @@ class StreamingApp {
             console.log('Loading featured movies...');
             
             // Test server health first
-            const healthResponse = await fetch(`${this.API_BASE.replace('/api', '')}/health`);
+            const healthResponse = await fetch(`${this.API_BASE}/health`);
             if (!healthResponse.ok) {
                 throw new Error('Server tidak dapat diakses');
             }
@@ -1559,7 +1559,7 @@ class StreamingApp {
                 bookId: 'sample1',
                 title: 'Drama Contoh 1',
                 chapterCount: 50,
-                poster: 'https://via.placeholder.com/220x320/1a1a1a/ffffff?text=Drama+1',
+                poster: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIwIiBoZWlnaHQ9IjMyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMWExYTFhIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxOCIgZmlsbD0iI2ZmZmZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkRyYW1hIDE8L3RleHQ+PC9zdmc+',
                 description: 'Ini adalah contoh drama untuk testing website streaming.',
                 rating: 4.5,
                 year: 2024,
@@ -1570,7 +1570,7 @@ class StreamingApp {
                 bookId: 'sample2',
                 title: 'Drama Contoh 2',
                 chapterCount: 30,
-                poster: 'https://via.placeholder.com/220x320/1a1a1a/ffffff?text=Drama+2',
+                poster: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIwIiBoZWlnaHQ9IjMyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMWExYTFhIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxOCIgZmlsbD0iI2ZmZmZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkRyYW1hIDI8L3RleHQ+PC9zdmc+',
                 description: 'Drama contoh kedua untuk testing fitur streaming.',
                 rating: 4.2,
                 year: 2024,
@@ -1580,7 +1580,7 @@ class StreamingApp {
         ];
         
         this.displayFeaturedMovies(sampleMovies);
-        this.displayMoreMovies(sampleMovies);
+        // displayMoreMovies removed - function doesn't exist
     }
 }
 
