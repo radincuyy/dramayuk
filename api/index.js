@@ -19,7 +19,7 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Health check
-app.get('/api/health', (req, res) => {
+app.get('/health', (req, res) => {
     res.json({ 
         status: 'OK', 
         timestamp: new Date().toISOString(),
@@ -28,7 +28,7 @@ app.get('/api/health', (req, res) => {
 });
 
 // Latest movies
-app.get('/api/latest', async (req, res) => {
+app.get('/latest', async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1;
         console.log(`API /latest called with page: ${page}`);
@@ -44,7 +44,7 @@ app.get('/api/latest', async (req, res) => {
 });
 
 // Search movies
-app.post('/api/search', async (req, res) => {
+app.post('/search', async (req, res) => {
     try {
         const { keyword, enhanced = false } = req.body;
         if (!keyword) {
@@ -75,7 +75,7 @@ app.post('/api/search', async (req, res) => {
 });
 
 // Stream link
-app.post('/api/stream', async (req, res) => {
+app.post('/stream', async (req, res) => {
     try {
         const { bookId, index } = req.body;
         if (!bookId || !index) {
@@ -91,7 +91,7 @@ app.post('/api/stream', async (req, res) => {
 });
 
 // All movies
-app.get('/api/all-movies', async (req, res) => {
+app.get('/all-movies', async (req, res) => {
     try {
         const requestedPage = parseInt(req.query.page) || 1;
         

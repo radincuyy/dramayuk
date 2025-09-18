@@ -271,7 +271,8 @@ class StreamingApp {
                 movies = await response.json();
             }
 
-            this.displayMoreMovies(movies);
+            // displayMoreMovies function removed - using displayFeaturedMovies instead
+            this.displayFeaturedMovies(movies);
 
         } catch (error) {
             console.error('Error loading more movies:', error);
